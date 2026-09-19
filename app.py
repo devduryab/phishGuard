@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request, jsonify
 from detector import ESCALATION_FLOOR, analyze_url, escalating_signal
 from vulnerability import assess_url
@@ -176,4 +178,10 @@ def api_weights():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Local development only. In production gunicorn imports `app` directly
+    # and this block never runs (see Procfile).
+    app.run(
+        host=os.environ.get("HOST", "127.0.0.1"),
+        port=int(os.environ.get("PORT", 5000)),
+        debug=os.environ.get("FLASK_DEBUG", "1") == "1",
+    )

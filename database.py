@@ -2,7 +2,13 @@ import sqlite3
 import json
 import os
 
-DB_NAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scans.db")
+# DB_PATH lets a deployment point the database at a mounted volume. Without
+# it the file sits next to the code, which on an ephemeral host means scan
+# history resets on each redeploy.
+DB_NAME = os.environ.get(
+    "DB_PATH",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "scans.db"),
+)
 
 def init_db():
     con = sqlite3.connect(DB_NAME)

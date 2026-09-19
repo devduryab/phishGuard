@@ -21,6 +21,10 @@ data/*.zip
 data/evaluation/*.csv
 data/evaluation/*.zip
 
+# ...except the trimmed top-sites extract, which the self-audit needs at
+# runtime and is small enough to track (183 KB).
+!data/evaluation/tranco-top10k.csv
+
 # Trained model - regenerate with: python model/train_model.py
 model/*.joblib
 

@@ -22,7 +22,18 @@ from detector import (
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data", "evaluation")
 PHISHING_FEED = os.path.join(DATA_DIR, "openphish.txt")
-TRANCO_LIST = os.path.join(DATA_DIR, "top-1m.csv")
+
+# The full Tranco list is 22 MB and excluded from git and from deployment.
+# A committed 10,000-row extract is used when it is not present, which is
+# ample since evaluations sample a few hundred domains.
+TRANCO_CANDIDATES = [
+    os.path.join(DATA_DIR, "top-1m.csv"),
+    os.path.join(DATA_DIR, "tranco-top10k.csv"),
+]
+TRANCO_LIST = next(
+    (path for path in TRANCO_CANDIDATES if os.path.exists(path)),
+    TRANCO_CANDIDATES[-1],
+)
 
 # Weights mirror app.py, with the security component absent because no live
 # request is made. A URL is treated as "flagged" at or above the threshold,

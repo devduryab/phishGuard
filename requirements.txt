@@ -3,3 +3,7 @@ requests
 pandas
 scikit-learn
 joblib
+
+# Production WSGI server. Installs on Windows but only runs on Linux, which
+# is fine - locally the app is started with `python app.py`.
+gunicorn
