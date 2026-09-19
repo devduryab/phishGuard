@@ -1,0 +1,35 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+.DS_Store
+
+# Local database (scan history is generated at runtime)
+scans.db
+
+# Datasets - too large for git and re-downloadable.
+# See README for how to fetch them again.
+data/*.csv
+data/*.zip
+data/evaluation/*.csv
+data/evaluation/*.zip
+
+# Trained model - regenerate with: python model/train_model.py
+model/*.joblib
+
+# Editor / OS
+.idea/
+.vscode/
+Thumbs.db
+
+# Environment
+.env
+.env.local
+_git_scaffold_backup/

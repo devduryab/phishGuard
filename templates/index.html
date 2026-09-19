@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhishGuard AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <section class="hero">
+            <p class="tag">AI SECURITY LAB</p>
+            <h1>PhishGuard AI</h1>
+            <p>Phishing detection + safe security assessment + traceable findings.</p>
+        </section>
+
+        <nav class="nav-row">
+            <a href="{{ url_for('history') }}">View scan history &rarr;</a>
+        </nav>
+
+        <form method="post" class="scan-box">
+            <label for="url">Website URL</label>
+            <div class="row">
+                <input id="url" name="url"
+                       placeholder="https://example.com" required>
+                <button type="submit">Analyze</button>
+            </div>
+            <small>Only assess websites you own or are authorized to test.</small>
+        </form>
+
+        {% if error %}
+        <div class="alert error">{{ error }}</div>
+        {% endif %}
+
+        {% if result %}
+        <section class="result-card">
+            <div class="score">
+                <span>Risk Score</span>
+                <strong>{{ result.score }}/100</strong>
+                <b class="{{ result.level|lower }}">{{ result.level }}</b>
+            </div>
+
+            <div class="metrics">
+                <div><span>Rule score</span><strong>{{ result.rule_score }}</strong></div>
+                <div><span>AI score</span><strong>{{ result.ml_score }}</strong></div>
+                <div><span>Security score</span><strong>{{ result.security_score }}</strong></div>
+            </div>
+
+            <h2>Why?</h2>
+            <ul>
+                {% for reason in result.reasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Traceable security findings</h2>
+            {% for item in result.findings %}
+            <article class="finding">
+                <b>{{ item.severity }}</b>
+                <strong>{{ item.title }}</strong>
+                <p>{{ item.detail }}</p>
+            </article>
+            {% endfor %}
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>

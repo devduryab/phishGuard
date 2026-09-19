@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PhishGuard AI - Scan History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <section class="hero">
+            <p class="tag">AI SECURITY LAB</p>
+            <h1>Scan History</h1>
+            <p>All previous scans, most recent first.</p>
+        </section>
+
+        <nav class="nav-row">
+            <a href="{{ url_for('home') }}">&larr; Back to scanner</a>
+        </nav>
+
+        {% if scans %}
+        <section class="result-card">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>When</th>
+                        <th>URL</th>
+                        <th>Level</th>
+                        <th>Score</th>
+                        <th>Rule</th>
+                        <th>AI</th>
+                        <th>Security</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scan in scans %}
+                    <tr>
+                        <td>{{ scan.created_at }}</td>
+                        <td class="url-cell">{{ scan.url }}</td>
+                        <td><b class="{{ scan.risk_level|lower }}">{{ scan.risk_level }}</b></td>
+                        <td>{{ scan.final_score }}</td>
+                        <td>{{ scan.rule_score }}</td>
+                        <td>{{ scan.ml_score }}</td>
+                        <td>{{ scan.security_score }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        {% else %}
+        <section class="result-card">
+            <p>No scans yet. Run a scan from the home page first.</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>
